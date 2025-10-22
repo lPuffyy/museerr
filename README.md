@@ -4,13 +4,13 @@
 It provides a clean web interface for browsing artists, albums, and managing your music library — powered by Lidarr’s API.
 
 <p align="center">
-  <img src="docs/screenshot1.png" alt="Museerr Dashboard" width="75%">
+  <img src="docs/screenshot1.png" alt="Museerr Dashboard" width="25%">
   <br>
   <em>Dashboard view</em>
 </p>
 
 <p align="center">
-  <img src="docs/screenshot2.png" alt="Artist Page" width="75%">
+  <img src="docs/screenshot2.png" alt="Artist Page" width="25%">
   <br>
   <em>Artist details page</em>
 </p>
