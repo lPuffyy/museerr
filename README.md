@@ -38,7 +38,7 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - LIDARR_URL=http://192.168.5.47:8686/api/v1
+      - LIDARR_URL=http://your-server-ip/api/v1
       - LIDARR_API_KEY=your_lidarr_api_key_here
       - LIDARR_ROOT_FOLDER=/music
       - LIDARR_PROFILE_NAME=Any
