@@ -23,7 +23,7 @@ It provides a clean web interface for browsing artists, albums, and managing you
 
 ### Using Docker CLI
 ```bash
-docker run -d   --name=museerr   -p 5001:5001   -e LIDARR_URL=http://192.168.5.47:8686/api/v1   -e LIDARR_API_KEY=your_lidarr_api_key_here   -e LIDARR_ROOT_FOLDER=/music   -e LIDARR_PROFILE_NAME=Any   -v /path/on/host/config:/config   -v /path/on/host/music:/music   lpuffyy/museerr:latest
+docker run -d   --name=museerr   -p 5001:5001   -e LIDARR_URL=http://yourserverip/api/v1   -e LIDARR_API_KEY=your_lidarr_api_key_here   -e LIDARR_ROOT_FOLDER=/music   -e LIDARR_PROFILE_NAME=Any   -v /path/on/host/config:/config   -v /path/on/host/music:/music   lpuffyy/museerr:latest
 ```
 
 ### Using Docker Compose
