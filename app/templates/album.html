@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ album.title }} · Museerr</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+  <style>
+    body { background: #111; color: #fff; font-family: sans-serif; }
+    main.container { max-width: 800px; margin: 0 auto; padding: 1.5rem; }
+    header.album-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem; }
+    header.album-header img {
+      width: 150px; height: 150px; border-radius: 10px; object-fit: cover;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    }
+    header.album-header h1 { font-size: 1.8rem; margin: 0; font-weight: 600; }
+    .button {
+      background: #1db954; color: #0d0d0d; border: none; border-radius: 8px;
+      padding: .5rem .8rem; font-weight: 600; cursor: pointer;
+    }
+    .button:hover { filter: brightness(1.1); }
+    .track-list { list-style: none; padding: 0; margin: 1rem 0; border-top: 1px solid #333; }
+    .track-list li {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .75rem 0; border-bottom: 1px solid #222;
+    }
+    .track-title { color: #fff; font-size: 1rem; }
+    .track-number { color: #777; width: 2ch; text-align: right; margin-right: 1rem; }
+    .track-status { font-size: 1.2rem; }
+    .track-status.downloaded { color: #1db954; }
+    .track-status.pending { color: #555; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="album-header">
+      {% if album.image_url %}
+        <img src="{{ album.image_url }}" alt="{{ album.title }}">
+      {% endif %}
+      <div>
+        <h1>{{ album.title }}</h1>
+        <div style="color:#bbb;">{{ album.year or "" }}</div>
+      </div>
+    </header>
+
+    <div style="margin:1rem 0;">
+      <button id="search-album-btn" class="button">🔍 Search for Album in Lidarr</button>
+      <span id="search-status" style="margin-left:1rem;color:#aaa;"></span>
+    </div>
+
+    <ul class="track-list">
+      {% for t in tracks %}
+      <li>
+        <div style="display:flex;align-items:center;">
+          <div class="track-number">{{ t.track_number }}</div>
+          <div class="track-title">{{ t.title }}</div>
+        </div>
+        <div class="track-status {% if t.has_file %}downloaded{% else %}pending{% endif %}">
+          {% if t.has_file %}
+            ✅
+          {% else %}
+            ○
+          {% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="/" class="nav-item">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="/search" class="nav-item">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M10 2a8 8 0 0 1 5.292 13.707l5 5-1.414 1.414-5-5A8 8 0 1 1 10 2zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/></svg>
+      <span>Search</span>
+    </a>
+    <a href="/logout" class="nav-item">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-8v2h8v14h-8v2h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"/></svg>
+      <span>Logout</span>
+    </a>
+  </nav>
+</body>
+</html>

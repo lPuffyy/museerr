@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search · Museerr</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+  <link rel="manifest" href="{{ url_for('static', path='manifest.webmanifest') }}">
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <h1>Search</h1>
+      <form action="/search" method="get" class="search-bar">
+        <input type="text" name="q" placeholder="Search artists..." value="{{ query }}">
+        <button type="submit">Search</button>
+      </form>
+    </header>
+
+    <section class="panel">
+      {% if query %}
+      <h2>Results for “{{ query }}”</h2>
+      {% else %}
+      <h2>Search for an Artist</h2>
+      {% endif %}
+
+      {% if results %}
+      <div class="card-grid">
+        {% for a in results %}
+        <a href="/artist/{{ a.id }}" class="card link-card">
+          <div class="image-wrapper">
+            {% if a.image_url %}
+            <img src="{{ a.image_url }}" alt="{{ a.name }}">
+            {% else %}
+            <div class="fallback">{{ a.name[0] }}</div>
+            {% endif %}
+            {% if a.in_library %}
+            <span class="checkmark" title="In Library">✔</span>
+            {% endif %}
+          </div>
+          <div class="card-title">{{ a.name }}</div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="empty">No results found.</p>
+      {% endif %}
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="/" class="nav-item">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="/search" class="nav-item active">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M10 2a8 8 0 0 1 5.292 13.707l5 5-1.414 1.414-5-5A8 8 0 1 1 10 2zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/></svg>
+      <span>Search</span>
+    </a>
+    <a href="/logout" class="nav-item">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-8v2h8v14h-8v2h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"/></svg>
+      <span>Logout</span>
+    </a>
+  </nav>
+</body>
+</html>

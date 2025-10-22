@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ artist.name }} · Museerr</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+  <style>
+    body { background: #111; color: #fff; font-family: sans-serif; }
+    main.container { max-width: 1000px; margin: 0 auto; padding: 1.5rem; }
+    header.artist-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    header.artist-header img {
+      width: 150px;
+      height: 150px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+    }
+    header.artist-header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+      font-weight: 600;
+    }
+    .albums {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.2rem;
+    }
+    .album-card {
+      background: #1a1a1a;
+      border: 1px solid #222;
+      border-radius: 10px;
+      padding: .6rem;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      transition: background .2s ease;
+    }
+    .album-card:hover {
+      background: #222;
+      transform: translateY(-2px);
+    }
+    .album-card img {
+      width: 100%;
+      border-radius: 10px;
+      aspect-ratio: 1;
+      object-fit: cover;
+      margin-bottom: .5rem;
+    }
+    .album-card .title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: .25rem;
+    }
+    .album-card .year {
+      color: #aaa;
+      font-size: .9rem;
+    }
+    .button {
+      background: #1db954;
+      color: #0d0d0d;
+      border: none;
+      border-radius: 8px;
+      padding: .5rem .8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .button:hover { filter: brightness(1.1); }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header class="artist-header">
+      {% if artist.image_url %}
+      <img src="{{ artist.image_url }}" alt="{{ artist.name }}">
+      {% endif %}
+      <div>
+        <h1>{{ artist.name }}</h1>
+        {% if not artist.in_library %}
+        <form action="/add_artist" method="post">
+          <input type="hidden" name="artist_id" value="{{ artist.id }}">
+          <input type="hidden" name="artist_name" value="{{ artist.name }}">
+          <button type="submit" class="button">➕ Add to Lidarr</button>
+        </form>
+        {% else %}
+        <span style="color:#1db954;">✅ In Library</span>
+        {% endif %}
+      </div>
+    </header>
+
+    {% if albums %}
+    <section>
+      <h2>Albums</h2>
+      <div class="albums">
+        {% for alb in albums %}
+        <a href="/album/{{ alb.id }}" class="album-card">
+          {% if alb.image_url %}
+          <img src="{{ alb.image_url }}" alt="{{ alb.title }}">
+          {% endif %}
+          <div class="title">{{ alb.title }}</div>
+          {% if alb.year %}
+          <div class="year">{{ alb.year }}</div>
+          {% endif %}
+          {% if alb.downloaded %}
+          <div class="checkmark">✔</div>
+          {% endif %}
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% else %}
+    <p style="color:#888;">No albums found for this artist.</p>
+    {% endif %}
+  </main>
+
+  <!-- ✅ Unified bottom navigation -->
+  <nav class="bottom-nav">
+    <a href="/" class="nav-item">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="/search" class="nav-item">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M10 2a8 8 0 0 1 5.292 13.707l5 5-1.414 1.414-5-5A8 8 0 1 1 10 2zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/></svg>
+      <span>Search</span>
+    </a>
+    <a href="/logout" class="nav-item">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-8v2h8v14h-8v2h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"/></svg>
+      <span>Logout</span>
+    </a>
+  </nav>
+</body>
+</html>

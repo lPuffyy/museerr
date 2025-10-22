@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Museerr · Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+  <link rel="manifest" href="{{ url_for('static', path='manifest.webmanifest') }}">
+</head>
+<body>
+  <main class="container">
+    <header class="page-header">
+      <h1>Museerr</h1>
+      <p>Your connected music hub</p>
+    </header>
+
+    <section class="panel">
+      <h2>Library Includes:</h2>
+      <div id="artist-grid" class="card-grid"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="/" class="nav-item active">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1v-9z"/></svg>
+      <span>Home</span>
+    </a>
+    <a href="/search" class="nav-item">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M10 2a8 8 0 0 1 5.292 13.707l5 5-1.414 1.414-5-5A8 8 0 1 1 10 2zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/></svg>
+      <span>Search</span>
+    </a>
+    <a href="/logout" class="nav-item">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-8v2h8v14h-8v2h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"/></svg>
+      <span>Logout</span>
+    </a>
+  </nav>
+
+  <script>
+    const grid = document.getElementById('artist-grid');
+    const fallbackArtists = [
+      "Radiohead","Daft Punk","Kendrick Lamar","The Beatles",
+      "Lana Del Rey","Tame Impala","Arctic Monkeys","Coldplay"
+    ];
+
+    function shimmerCards(count=12){
+      grid.innerHTML = "";
+      for(let i=0;i<count;i++){
+        const c=document.createElement('div');
+        c.className='card shimmer';
+        grid.appendChild(c);
+      }
+    }
+
+    function createCard(artist){
+      const name = artist.name || artist;
+      const imgUrl = artist.image_url && artist.image_url.startsWith('http')
+        ? artist.image_url
+        : '/artist/image?name=' + encodeURIComponent(name) + '&t=' + Date.now();
+
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.onclick = () => {
+        if (artist.id) {
+          location.href = '/artist/' + artist.id;
+        }
+      };
+
+      const img = document.createElement('img');
+      img.src = imgUrl;
+      img.onerror = () => {
+        img.remove();
+        const fallback = document.createElement('div');
+        fallback.className = 'fallback';
+        fallback.textContent = name[0].toUpperCase();
+        card.prepend(fallback);
+      };
+
+      card.appendChild(img);
+      const title = document.createElement('div');
+      title.className = 'card-title';
+      title.textContent = name;
+      card.appendChild(title);
+      return card;
+    }
+
+    async function loadArtists(){
+      shimmerCards();
+      let artists = [];
+      try {
+        const r = await fetch('/discover/random');
+        const data = await r.json();
+        artists = data.artists || [];
+      } catch {}
+      if (!artists.length) {
+        try {
+          const r = await fetch('/discover/trending');
+          const d = await r.json();
+          artists = d.artists || [];
+        } catch {}
+      }
+      if (!artists.length) artists = fallbackArtists.map(n => ({ name: n }));
+
+      grid.innerHTML = '';
+      artists.slice(0, 18).forEach(a => grid.appendChild(createCard(a)));
+    }
+
+    document.addEventListener('DOMContentLoaded', loadArtists);
+  </script>
+</body>
+</html>

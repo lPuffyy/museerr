@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Museerr · Sign In</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+  <link rel="icon" href="{{ url_for('static', path='icons/icon-192.png') }}">
+  <link rel="manifest" href="{{ url_for('static', path='manifest.webmanifest') }}">
+</head>
+<body class="login-body">
+  <div class="login-container">
+    <h1 class="login-title">Museerr</h1>
+    <p class="login-sub">Connect to your Navidrome account</p>
+    <form method="post" action="/token" class="login-form">
+      <input type="text" name="username" placeholder="Username" required autofocus>
+      <input type="password" name="password" placeholder="Password" required>
+      <button class="button" type="submit">Sign In</button>
+    </form>
+  </div>
+</body>
+</html>
