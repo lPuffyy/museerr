@@ -57,7 +57,7 @@ Then open your browser to:
 
 | Variable | Description | Example |
 |-----------|-------------|----------|
-| `LIDARR_URL` | URL to your Lidarr API endpoint (include `/api/v1`) | `http://192.168.5.47:8686/api/v1` |
+| `LIDARR_URL` | URL to your Lidarr API endpoint (include `/api/v1`) | `http://your-server-ip/api/v1` |
 | `LIDARR_API_KEY` | Your Lidarr API key | `1234567890abcdef` |
 | `LIDARR_ROOT_FOLDER` | Path to your music folder | `/music` |
 | `LIDARR_PROFILE_NAME` | Default Lidarr profile | `Any` |
