@@ -3,8 +3,11 @@
 **Museerr** is a self-hosted music discovery dashboard built for [Lidarr](https://lidarr.audio).  
 It provides a clean web interface for browsing artists, albums, and managing your music library — powered by Lidarr’s API.
 
-![Museerr Screenshot](docs/albumwithadded.png)
+### Dashboard
+![Museerr Dashboard](docs/screenshot1.png)
 
+### Artist Page
+![Artist View](docs/screenshot2.png)
 ---
 
 ## ✨ Features
