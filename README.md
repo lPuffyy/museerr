@@ -42,6 +42,7 @@ services:
       - LIDARR_API_KEY=your_lidarr_api_key_here
       - LIDARR_ROOT_FOLDER=/music
       - LIDARR_PROFILE_NAME=Any
+      - NAVIDROME_URL=http://your-server-ip
       - TZ=Etc/UTC
     volumes:
       - /path/on/host/config:/config
@@ -61,6 +62,7 @@ Then open your browser to:
 | `LIDARR_API_KEY` | Your Lidarr API key | `1234567890abcdef` |
 | `LIDARR_ROOT_FOLDER` | Path to your music folder | `/music` |
 | `LIDARR_PROFILE_NAME` | Default Lidarr profile | `Any` |
+| `NAVIDROME_URL` | URL to your instance of Navidrome | `http://localhost:4533` |
 | `TZ` | Container timezone | `Etc/UTC` |
 
 ---
